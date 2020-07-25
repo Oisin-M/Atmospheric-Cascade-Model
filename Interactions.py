@@ -14,3 +14,6 @@ def pair_production(photon):
 
 def bremsstrahlung(particle):
 
+    if particle.name=="photon":
+        raise TypeError("Did not input a valid particle for Bremsstrahlung")
+
