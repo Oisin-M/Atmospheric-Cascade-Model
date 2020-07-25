@@ -1,4 +1,4 @@
- accepted_particles=['photon', 'electron', 'positron']
+accepted_particles=['photon', 'electron', 'positron']
 
 def is_number(s):
     try:
