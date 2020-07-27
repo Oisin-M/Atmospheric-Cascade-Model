@@ -1,3 +1,5 @@
+import numpy as np
+
 accepted_particles=['photon', 'electron', 'positron']
 
 def is_number(s):
@@ -35,7 +37,7 @@ class Particle:
         try:
             iterator = iter(position)
             if len(position)==3:
-                self.position = position
+                self.position = np.array(position).astype('float64')
             else:
                 raise TypeError("Did not pass in an iterable of length 3 for the position")
         except TypeError:
@@ -50,7 +52,7 @@ class Particle:
         try:
             iterator = iter(direction)
             if len(direction)==2:
-                self.direction = direction
+                self.direction = np.array(direction).astype('float64')
             else:
                 raise TypeError("Did not pass in an iterable of length 2 for the direction")
         except TypeError:
