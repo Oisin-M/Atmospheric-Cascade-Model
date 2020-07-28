@@ -18,7 +18,7 @@ name_to_charge={'photon': 0,
                 'positron': 1}
 
 class Particle:
-    """Represents a particle with a valid name, energy in Joules, position 3-vector and a 2-vector direction giving the angles theta and phi in radians"""
+    """Represents a particle with a valid name, total energy in MeV, position 3-vector and a 2-vector direction giving the angles theta and phi in radians"""
 
     class_counter= 0
 

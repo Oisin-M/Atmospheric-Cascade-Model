@@ -1,4 +1,4 @@
-import Particle as pcl
+import ..Particle.particle as pcl
 
 import numpy as np
 
