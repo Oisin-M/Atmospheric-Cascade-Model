@@ -6,6 +6,8 @@ rho = 1.225 * 10**3/(100**3) #g/cm^3
 AE = 1 #charged particles energy cut-off
 AP = 0.1 #photon
 
+eps_MS = 0 #fudge factor, ignoring since value not given
+
 c = 2.997925*10**10 #cm/s
 m_e = 9.1091*10**(-28) #g
 h_bar = 1.0545*10**(-27) #erg-sec
@@ -85,3 +87,11 @@ m_s=2.879
 x_0=1.742
 x_1=4
 C=-10.595
+
+Z_S = (np.array(list(p_is.values()))*np.array(list(Z_is.values()))*(np.array(list(Z_is.values()))+eps_MS)).sum()
+Z_E = (np.array(list(p_is.values()))*np.array(list(Z_is.values()))*(np.array(list(Z_is.values()))+eps_MS)*np.log(np.array(list(Z_is.values()))**(-2/3))).sum()
+Z_X = (np.array(list(p_is.values()))*np.array(list(Z_is.values()))*(np.array(list(Z_is.values()))+eps_MS)*np.log(1+3.34*(alpha*np.array(list(Z_is.values())))**2)).sum()
+
+b_c = _6680_*rho*Z_S*np.exp(Z_E/Z_S)/(M*np.exp(Z_X/Z_S))
+
+X_cc = _22pt9_ * np.pi/180 * np.sqrt(rho*Z_S/M)
