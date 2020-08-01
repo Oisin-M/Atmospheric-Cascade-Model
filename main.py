@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
-el=pcl.Particle("electron", 100, [1,2,3], [15,20])
-ph=pcl.Particle("photon", 100, [1,2,3], [15,20])
+el=pcl.Particle("electron", 10**6, [1,2,3], [15,20])
+ph=pcl.Particle("photon", 10**3, [1,2,3], [15,20])
 
 photon_times = [0]
 electron_times = [0]
