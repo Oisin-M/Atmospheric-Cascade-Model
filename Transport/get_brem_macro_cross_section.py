@@ -73,6 +73,15 @@ def A_prime(Z, E_0_checked):
 
     return 1
 
+def X_0_ele_inv(Z, A):
+
+    return const.N_a*const.rho*const.alpha*const.r_0**2/A*(Z**2*(L(Z)-f_c(Z))+Z*L_prime(Z))
+
+def X_0():
+#FINISH THIS
+    X_0_inv = (const.A_is*np.array(list(map(X_0_ele_inv, const.Z_is, const.A_is)))).sum()
+    return X_0_inv**(-1)
+
 def domega_dk(Z, E_0_checked, k_checked):
 
     const_factor = (A_prime(Z, E_0_checked)*const.r_0**2*const.alpha*Z*(Z+xi(Z)))/k_checked
