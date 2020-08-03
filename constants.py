@@ -71,3 +71,46 @@ Z_X = (p_is*Z_is*(Z_is+eps_MS)*np.log(1+3.34*(alpha*Z_is)**2)).sum()
 b_c = _6680_*rho*Z_S*np.exp(Z_E/Z_S)/(M*np.exp(Z_X/Z_S))
 
 X_cc = _22pt9_ * np.pi/180 * np.sqrt(rho*Z_S/M)
+
+
+
+def L_prime(Z):
+
+    if Z==1:
+        return 6.144
+    elif Z==2:
+        return 5.621
+    elif Z==3:
+        return 5.805
+    elif Z==4:
+        return 5.924
+    else:
+        return np.log(1194*Z**(-2/3))
+
+def L(Z):
+
+    if Z==1:
+        return 5.31
+    elif Z==2:
+        return 4.79
+    elif Z==3:
+        return 4.74
+    elif Z==4:
+        return 4.71
+    else:
+        return np.log(184.15*Z**(-1/3))
+
+def a(Z):
+
+    return alpha*Z
+
+def f_c(Z):
+
+    a_ = a(Z)
+    return a_**2*(1/(1+a_**2)+0.20206-0.0369*a_**2+0.0083*a_**4-0.002*a_**6)
+
+def X_0_ele_inv(Z, A):
+
+    return N_a*rho*alpha*r_0**2/A*(Z**2*(L(Z)-f_c(Z))+Z*L_prime(Z))
+
+X_0 = ((A_is*np.array(list(map(X_0_ele_inv, Z_is, A_is)))).sum())**(-1)

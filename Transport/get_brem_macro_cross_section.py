@@ -73,16 +73,16 @@ def A_prime(Z, E_0_checked):
 
     return 1
 
-def X_0_ele_inv(Z, A):
+# def X_0_ele_inv(Z, A):
+#
+#     return const.N_a*const.rho*const.alpha*const.r_0**2/A*(Z**2*(L(Z)-f_c(Z))+Z*L_prime(Z))
+#
+# def X_0():
+#
+#     X_0_inv = (const.A_is*np.array(list(map(X_0_ele_inv, const.Z_is, const.A_is)))).sum()
+#     return X_0_inv**(-1)
 
-    return const.N_a*const.rho*const.alpha*const.r_0**2/A*(Z**2*(L(Z)-f_c(Z))+Z*L_prime(Z))
-
-def X_0():
-#FINISH THIS
-    X_0_inv = (const.A_is*np.array(list(map(X_0_ele_inv, const.Z_is, const.A_is)))).sum()
-    return X_0_inv**(-1)
-
-def domega_dk(Z, E_0_checked, k_checked):
+def domega_dkchecked(Z, E_0_checked, k_checked):
 
     const_factor = (A_prime(Z, E_0_checked)*const.r_0**2*const.alpha*Z*(Z+xi(Z)))/k_checked
     E_checked = E(E_0_checked, k_checked)
@@ -97,9 +97,9 @@ def domega_dk(Z, E_0_checked, k_checked):
 
     return const_factor*(first_term-second_term)
 
-def dSigma_dk(E_0_checked, k_checked):
+def dSigma_dkchecked(E_0_checked, k_checked):
 
-    domega_dks=np.array(list(map(lambda z: domega_dk(z, E_0_checked, k_checked), const.Z_is)))
+    domega_dks=np.array(list(map(lambda z: domega_dkchecked(z, E_0_checked, k_checked), const.Z_is)))
 
     return const.N_a*const.rho/const.M*((const.p_is*domega_dks).sum())
 
@@ -107,4 +107,4 @@ def get_total_macro_cross_section(particle):
 
     E_0_checked = particle.energy
 
-    return integrate.quad(lambda k: dSigma_dk(E_0_checked, k), const.AP, E_0_checked - const.m)[0]
+    return integrate.quad(lambda k: dSigma_dkchecked(E_0_checked, k), const.AP, E_0_checked - const.m)[0]

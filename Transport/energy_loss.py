@@ -1,9 +1,13 @@
 import numpy as np
 import constants as const
+from Transport.get_brem_macro_cross_section import dSigma_dkchecked
+import scipy.integrate as integrate
 
 def dEdx_BREM(particle):
 
-    return 0.05 #random
+    E_0_checked = particle.energy
+
+    return const.X_0*integrate.quad(lambda k: k*dSigma_dkchecked(E_0_checked, k), 0, const.AP)[0]
 
 def dEdx_ATOMIC_ELECTRONS(particle):
 
