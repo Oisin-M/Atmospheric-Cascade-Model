@@ -109,8 +109,21 @@ def f_c(Z):
     a_ = a(Z)
     return a_**2*(1/(1+a_**2)+0.20206-0.0369*a_**2+0.0083*a_**4-0.002*a_**6)
 
+def xi(Z):
+
+    return L_prime(Z)/(L(Z)-f_c(Z))
+
 def X_0_ele_inv(Z, A):
 
     return N_a*rho*alpha*r_0**2/A*(Z**2*(L(Z)-f_c(Z))+Z*L_prime(Z))
 
 X_0 = ((A_is*np.array(list(map(X_0_ele_inv, Z_is, A_is)))).sum())**(-1)
+
+Z_T = ((p_is*Z_is)*(Z_is+xi(Z_is))).sum()
+Z_B = (((p_is*Z_is)*(Z_is+xi(Z_is)))*np.log(Z_is**(-1/3))).sum()
+Z_F = (((p_is*Z_is)*(Z_is+xi(Z_is)))*f_c(Z_is)).sum()
+Z_A = Z_T*np.log(184.15)
+Z_U = (Z_B-Z_F)/Z_A
+Z_V = (Z_B-Z_F)/Z_T
+Z_G = Z_B/Z_T
+Z_P = Z_B/Z_A

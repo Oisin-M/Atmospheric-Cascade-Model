@@ -18,7 +18,8 @@ electron_energies = [el.energy]
 
 print("\n---PHOTON---\n")
 for i in range(5):
-    ph, dx=tp.move(ph)
+    ph, dx, interaction_bool=tp.move(ph)
+    print("INTERACTION (not handled by code yet)")
     photon_positions.append(list(ph.position))
     photon_dx.append(photon_dx[-1]+dx)
     photon_times.append(photon_times[-1]+dx/const.c)
@@ -26,7 +27,11 @@ for i in range(5):
 
 print("\n---ELECTRON---\n")
 for i in range(20):
-    el, dx=tp.move(el)
+    el, dx, interaction_bool=tp.move(el)
+    if interaction_bool:
+        print("INTERACTION (not handled by code yet)")
+    else:
+        print("NO INTERACTION")
     electron_positions.append(list(el.position))
     electron_energies.append(el.energy)
     electron_dx.append(electron_dx[-1]+dx)
