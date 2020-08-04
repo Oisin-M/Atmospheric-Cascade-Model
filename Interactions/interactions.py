@@ -1,5 +1,5 @@
-import ..Particle.particle as pcl
-
+import particle as pcl
+import Interactions.bremsstrahlung_pdf as brem_pdf
 import numpy as np
 
 def pair_production(photon, energy_electron, energy_positron):
@@ -22,3 +22,11 @@ def bremsstrahlung(particle):
 
     if particle.name=="photon":
         raise TypeError("Did not input a valid particle for Bremsstrahlung")
+    else:
+        E_0_checked = particle.energy
+        k_checked = brem_pdf.sample_secondary_energy(E_0_checked)
+        E_checked = E_0_checked - k_checked
+        particle.energy = E_checked
+
+        return [particle,
+                pcl.Particle("photon", k_checked, particle.position, particle.direction)]

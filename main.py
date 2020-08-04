@@ -1,4 +1,5 @@
 import particle as pcl
+import Interactions.interactions as interact
 import Transport.transport as tp
 import constants as const
 import numpy as np
@@ -29,7 +30,7 @@ print("\n---ELECTRON---\n")
 for i in range(20):
     el, dx, interaction_bool=tp.move(el)
     if interaction_bool:
-        print("INTERACTION (not handled by code yet)")
+        print("INTERACTION: ", interact.bremsstrahlung(el))
     else:
         print("NO INTERACTION")
     electron_positions.append(list(el.position))

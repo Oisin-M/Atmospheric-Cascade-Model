@@ -35,7 +35,7 @@ def dEdx_ATOMIC_ELECTRONS(particle):
         C = const.C #could be calculated but using from table
         delta = 2*np.log(10)*x+C
     else:
-        a = const.a
+        a = const.a_const
         C = const.C #could be calculated but using from table
         m_s = const.m_s
         delta = 2*np.log(10)*x+C+a*(x_1-x)**m_s

@@ -58,7 +58,7 @@ I_adj = np.exp( (p_is*Z_is*np.log( p_is )).sum() / C_M)
 
 #values for air
 I_adj = 85.7 #eV
-a=0.2466
+a_const=0.2466
 m_s=2.879
 x_0=1.742
 x_1=4
@@ -117,11 +117,14 @@ def X_0_ele_inv(Z, A):
 
     return N_a*rho*alpha*r_0**2/A*(Z**2*(L(Z)-f_c(Z))+Z*L_prime(Z))
 
+vec_xi = np.vectorize(xi)
+vec_f_c = np.vectorize(f_c)
+
 X_0 = ((A_is*np.array(list(map(X_0_ele_inv, Z_is, A_is)))).sum())**(-1)
 
-Z_T = ((p_is*Z_is)*(Z_is+xi(Z_is))).sum()
-Z_B = (((p_is*Z_is)*(Z_is+xi(Z_is)))*np.log(Z_is**(-1/3))).sum()
-Z_F = (((p_is*Z_is)*(Z_is+xi(Z_is)))*f_c(Z_is)).sum()
+Z_T = ((p_is*Z_is)*(Z_is+vec_xi(Z_is))).sum()
+Z_B = (((p_is*Z_is)*(Z_is+vec_xi(Z_is)))*np.log(Z_is**(-1/3))).sum()
+Z_F = (((p_is*Z_is)*(Z_is+vec_xi(Z_is)))*vec_f_c(Z_is)).sum()
 Z_A = Z_T*np.log(184.15)
 Z_U = (Z_B-Z_F)/Z_A
 Z_V = (Z_B-Z_F)/Z_T
