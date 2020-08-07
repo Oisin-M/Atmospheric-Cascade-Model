@@ -234,7 +234,7 @@ def sample_f_1(E_0_checked):
                     return sample_f_1(E_0_checked)
 
 def sample_secondary_energy(E_0_checked):
-    
+
     zeta_1 = np.random.random()
     zeta_3 = np.random.random()
     alphas = np.array([alpha_1(E_0_checked), alpha_2()])

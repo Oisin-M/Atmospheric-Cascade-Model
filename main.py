@@ -27,7 +27,7 @@ for i in range(5):
 
 
 print("\n---ELECTRON---\n")
-for i in range(20):
+for i in range(5):
     el, dx, interaction_bool=tp.move(el)
     if interaction_bool:
         print("INTERACTION: ", interact.bremsstrahlung(el))
