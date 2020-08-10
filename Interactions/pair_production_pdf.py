@@ -100,7 +100,7 @@ def sample_secondary_energy(k_checked):
         if zeta_3 < g_2(eps_, k_checked):
             return eps_*k_checked
         else:
-            return sample_secondary_energy(E_0_checked)
+            return sample_secondary_energy(k_checked)
     else:
         #i=1
         eps_ = sample_f_1()

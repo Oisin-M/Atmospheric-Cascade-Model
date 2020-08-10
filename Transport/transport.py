@@ -11,7 +11,7 @@ def t_s(E_checked):
     return const.X_0*2*E_checked*beta**2/const.E_checked_s
 
 def move(particle):
-    print("!!! movement initiated")
+    # print("!!! movement initiated")
 
     sigmas=get_cross_sections.get_total_macro_cross_sections(particle)
     total_cross_section=np.array(list(sigmas.values())).sum()
@@ -27,7 +27,7 @@ def move(particle):
         #easy photon transport
         cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
         particle.position+=dx*cartesian_direction
-        print("MOVED TO: ", particle.position)
+        # print("MOVED TO: ", particle.position)
         interaction_bool = True
 
     else:
@@ -35,8 +35,8 @@ def move(particle):
 
         #should split dx into smaller steps
         t_P_max = const.eps_P_max*t_s(particle.energy) #max chunk size
-        print("MAX: ", t_P_max)
-        print("DX: ", dx)
+        # print("MAX: ", t_P_max)
+        # print("DX: ", dx)
         if t_P_max>=dx:
             chunk_size=dx
         else:
@@ -56,11 +56,13 @@ def move(particle):
             particle.energy += dEdx*chunk_size
             particle.direction[0] = new_Theta
             particle.direction[1] = new_phi
-            print("MOVED TO: ", particle.position)
-            print("ENERGY CHANGED TO: ", particle.energy)
-            print("DIRECTION CHANGED TO: ", particle.direction)
+            # print("MOVED TO: ", particle.position)
+            # print("ENERGY CHANGED TO: ", particle.energy)
+            # print("DIRECTION CHANGED TO: ", particle.direction)
+            if particle.energy<const.AE:
+                break
 
-        if rem!=0:
+        if rem!=0 and particle.energy<const.AE:
             #do remainder
             cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
             particle.position+=rem*cartesian_direction
@@ -73,9 +75,9 @@ def move(particle):
             particle.energy += dEdx*rem
             particle.direction[0] = new_Theta
             particle.direction[1] = new_phi
-            print("MOVED TO: ", particle.position)
-            print("ENERGY CHANGED TO: ", particle.energy)
-            print("DIRECTION CHANGED TO: ", particle.direction)
+            # print("MOVED TO: ", particle.position)
+            # print("ENERGY CHANGED TO: ", particle.energy)
+            # print("DIRECTION CHANGED TO: ", particle.direction)
 
 
         #find if interaction occurs
@@ -87,7 +89,7 @@ def move(particle):
         else:
             interaction_bool = False
 
-    print("TOTAL PATH LENGTH IS: ", dx)
+    # print("TOTAL PATH LENGTH IS: ", dx)
 
 
     return particle, dx, interaction_bool

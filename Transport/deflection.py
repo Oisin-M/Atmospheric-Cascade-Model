@@ -7,7 +7,7 @@ def find_phi(particle):
     return np.random.random()*2*np.pi #completely random
 
 def find_Theta(particle, t, lambd):
-    print("Finding Theta")
+    # print("Finding Theta")
 
     B = pdf_const.get_B(particle, t)
     X_c = pdf_const.get_X_c(particle, t)
@@ -19,7 +19,7 @@ def find_Theta(particle, t, lambd):
     if alphas[0]+alphas[1] < zeta_1 * alphas.sum():
         #i=3
         theta = pdf.sample_f3(lambd, B, X_c)
-        print("THETA", theta)
+        # print("THETA", theta)
         if zeta_3 < pdf.g_3(theta, lambd, B, X_c):
             return theta
         else:

@@ -59,11 +59,11 @@ def g_2(theta, lambd, B, X_c):
     return theta/g_2_Norm * (lambd*f_to_the_n(0, theta, B, X_c)+f_to_the_n(1, theta, B, X_c)+f_to_the_n(2, theta, B, X_c)/B)
 
 def g_3(theta, lambd, B, X_c):
-    print("g3")
-    print("theta", theta)
-    print("lambd", lambd)
-    print("B", B)
-    print("X_c", X_c)
+    # print("g3")
+    # print("theta", theta)
+    # print("lambd", lambd)
+    # print("B", B)
+    # print("X_c", X_c)
     return theta**4/g_3_Norm * (lambd*f_to_the_n(0, theta, B, X_c)+f_to_the_n(1, theta, B, X_c)+f_to_the_n(2, theta, B, X_c)/B)
 
 def g_eta_3(eta, lambd, B, X_c):
@@ -75,18 +75,18 @@ def theta_to_Theta(theta, B, X_c):
     return theta*X_c*np.sqrt(B)
 
 def sample_f1():
-    print("--- sampling f1")
+    # print("--- sampling f1")
     return np.sqrt(-np.log(np.random.random()))
 
 def sample_f2():
-    print("--- sampling f2")
+    # print("--- sampling f2")
     return np.random.random()
 
 def sample_f_eta_3():
     return np.max([np.random.random(), np.random.random()])
 
 def sample_f3(lambd, B, X_c):
-    print("--- sampling f3")
+    # print("--- sampling f3")
     eta = sample_f_eta_3()
     # print("eta", eta)
     zeta_3 = np.random.random()
