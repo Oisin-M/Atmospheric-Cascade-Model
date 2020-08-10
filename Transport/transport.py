@@ -2,6 +2,13 @@ import numpy as np
 import Transport.get_cross_sections as get_cross_sections
 import Transport.energy_loss as energy_loss
 import Transport.deflection as deflection
+import constants as const
+
+def t_s(E_checked):
+
+    gamma = E_checked/const.m
+    beta = np.sqrt(1 - gamma**(-2))
+    return const.X_0*2*E_checked*beta**2/const.E_checked_s
 
 def move(particle):
     print("!!! movement initiated")
@@ -27,23 +34,49 @@ def move(particle):
         #charged particle transport
 
         #should split dx into smaller steps
+        t_P_max = const.eps_P_max*t_s(particle.energy) #max chunk size
+        print("MAX: ", t_P_max)
+        print("DX: ", dx)
+        if t_P_max>=dx:
+            chunk_size=dx
+        else:
+            chunk_size = 0.9*t_P_max #chunk size
 
-        cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
-        particle.position+=dx*cartesian_direction
+        quot,rem = divmod(dx, chunk_size)
 
-        print("SHOULD split dx into smaller chunks")
+        for i in range(int(quot)):
+            cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
+            particle.position+=chunk_size*cartesian_direction
 
-        #split into smaller chunks, this should multiple movements, not one
-        dEdx = energy_loss.find_energy_loss_rate(particle)
-        new_Theta = deflection.find_Theta(particle, dx, lambd)
-        #print("THETA: ", new_Theta)
-        new_phi = deflection.find_phi(particle)
-        particle.energy += dEdx*dx
-        particle.direction[0] = new_Theta
-        particle.direction[1] = new_phi
-        print("MOVED TO: ", particle.position)
-        print("ENERGY CHANGED TO: ", particle.energy)
-        print("DIRECTION CHANGED TO: ", particle.direction)
+            #split into smaller chunks, this should multiple movements, not one
+            dEdx = energy_loss.find_energy_loss_rate(particle)
+            new_Theta = deflection.find_Theta(particle, chunk_size, lambd)
+            #print("THETA: ", new_Theta)
+            new_phi = deflection.find_phi(particle)
+            particle.energy += dEdx*chunk_size
+            particle.direction[0] = new_Theta
+            particle.direction[1] = new_phi
+            print("MOVED TO: ", particle.position)
+            print("ENERGY CHANGED TO: ", particle.energy)
+            print("DIRECTION CHANGED TO: ", particle.direction)
+
+        if rem!=0:
+            #do remainder
+            cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
+            particle.position+=rem*cartesian_direction
+
+            #split into smaller chunks, this should multiple movements, not one
+            dEdx = energy_loss.find_energy_loss_rate(particle)
+            new_Theta = deflection.find_Theta(particle, rem, lambd)
+            #print("THETA: ", new_Theta)
+            new_phi = deflection.find_phi(particle)
+            particle.energy += dEdx*rem
+            particle.direction[0] = new_Theta
+            particle.direction[1] = new_phi
+            print("MOVED TO: ", particle.position)
+            print("ENERGY CHANGED TO: ", particle.energy)
+            print("DIRECTION CHANGED TO: ", particle.direction)
+
 
         #find if interaction occurs
         NEW_sigmas=get_cross_sections.get_total_macro_cross_sections(particle)

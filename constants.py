@@ -130,3 +130,6 @@ Z_U = (Z_B-Z_F)/Z_A
 Z_V = (Z_B-Z_F)/Z_T
 Z_G = Z_B/Z_T
 Z_P = Z_B/Z_A
+
+E_checked_s = 21.2
+eps_P_max = 0.3
