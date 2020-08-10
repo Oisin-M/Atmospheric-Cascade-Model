@@ -10,7 +10,7 @@ import pandas as pd
 el=pcl.Particle("electron", 10**6, [1,2,3], [15,20])
 ph=pcl.Particle("photon", 10**3, [1,2,3], [15,20])
 
-particle=el
+particle=ph
 
 particle_stack=[particle]
 print([particle.id, particle.name, particle.energy, particle.position, particle.direction])
@@ -18,11 +18,11 @@ rows=[[particle.id, particle.name, particle.energy, particle.position.copy(), pa
 
 i=0
 
-while len(particle_stack)>0 and i<11:
+while len(particle_stack)>0 and i<21:
     i+=1
     particle = particle_stack[0]
     particle_stack = particle_stack[1:]
-    print(particle)
+    # print(particle)
     particle, dx, interaction_bool=tp.move(particle)
     print("MOVE")
     if (particle.energy<const.AE and particle.charge!=0) or (particle.energy<const.AP and particle.charge==0):
@@ -55,13 +55,17 @@ while len(particle_stack)>0 and i<11:
             particle_stack.append(particle)
 
 
-        if i==11:
+        if i==21:
             df=pd.DataFrame(data=rows, columns=["id", "particle", "energy", "position", "direction", "event"])
             print(rows)
             print(df)
             df.to_excel("./OUTPUT/data.xlsx")
 
     particle_stack=sorted(particle_stack, key=lambda x: x.energy)
-    # print("ELECTRONS: ", len([n for n in particle_stack if n.name == "electron"]))
-    # print("POSITRONS: ", len([n for n in particle_stack if n.name == "position"]))
-    # print("PHOTONS: ", len([n for n in particle_stack if n.name == "photon"]))
+
+    print(list(map(lambda x: [x.name, x.id, x.energy], particle_stack)))
+
+    el_count=len([n for n in particle_stack if n.name == "electron"])
+    pos_count=len([n for n in particle_stack if n.name == "positron"])
+    phot_count=len([n for n in particle_stack if n.name == "photon"])
+    print("ELECTRONS: {}, POSITRONS: {}, PHOTONS: {}".format(el_count, pos_count, phot_count))
