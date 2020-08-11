@@ -21,6 +21,7 @@ i=0
 while len(particle_stack)>0 and i<21:
     i+=1
     particle = particle_stack[0]
+    print(particle.name, particle.energy)
     particle_stack = particle_stack[1:]
     # print(particle)
     particle, dx, interaction_bool=tp.move(particle)

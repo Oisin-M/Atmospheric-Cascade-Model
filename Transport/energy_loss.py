@@ -17,7 +17,7 @@ def dEdx_ATOMIC_ELECTRONS(particle):
     n = const.n
     gamma = particle.energy/m
     if gamma<1:
-        print("!!!GAMMA LESS THAN ONE!!!")
+        raise ValueError("gamma less than one")
     beta = np.sqrt(1 - gamma**(-2))
     r = gamma - 1
     T_E = const.T_E

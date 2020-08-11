@@ -47,7 +47,6 @@ def move(particle):
         for i in range(int(quot)):
             cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
             particle.position+=chunk_size*cartesian_direction
-
             #split into smaller chunks, this should multiple movements, not one
             dEdx = energy_loss.find_energy_loss_rate(particle)
             new_Theta = deflection.find_Theta(particle, chunk_size, lambd)
@@ -62,7 +61,7 @@ def move(particle):
             if particle.energy<const.AE:
                 break
 
-        if rem!=0 and particle.energy<const.AE:
+        if rem!=0 and particle.energy>const.AE:
             #do remainder
             cartesian_direction=np.array([np.sin(particle.direction[0])*np.cos(particle.direction[1]),np.sin(particle.direction[0])*np.sin(particle.direction[1]), np.cos(particle.direction[1])])
             particle.position+=rem*cartesian_direction
@@ -90,6 +89,5 @@ def move(particle):
             interaction_bool = False
 
     # print("TOTAL PATH LENGTH IS: ", dx)
-
-
+    
     return particle, dx, interaction_bool
