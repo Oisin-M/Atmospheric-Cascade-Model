@@ -12,7 +12,15 @@ def pair_production(photon):
     else:
 
         k_checked = photon.energy
-        E_neg_checked = pair_pdf.sample_secondary_energy(k_checked)
+
+        try:
+            E_neg_checked = pair_pdf.sample_secondary_energy(k_checked)
+        except:
+            print("-------------!!-------------")
+            print("Sampling recursion limit reached, giving both particles equal energies")
+            print("-------------!!-------------")
+            E_neg_checked = k_checked/2
+
         E_plus_checked = k_checked - E_neg_checked
 
         phi, dtheta = brem_dir.sample_direction(k_checked)

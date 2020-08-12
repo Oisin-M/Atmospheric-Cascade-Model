@@ -7,21 +7,25 @@ import pandas as pd
 
 
 
-el=pcl.Particle("electron", 10**6, [1,2,3], [15,20])
-ph=pcl.Particle("photon", 10**3, [1,2,3], [15,20])
+el=pcl.Particle("electron", 10**6, [0,0,0], [15,20])
+ph=pcl.Particle("photon", 10**9, [0,0,0], [15,20])
 
 particle=ph
 
 particle_stack=[particle]
 print([particle.id, particle.name, particle.energy, particle.position, particle.direction])
-rows=[[particle.id, particle.name, particle.energy, particle.position.copy(), particle.direction.copy(), "PRIMARY"]]
+pos=particle.position.copy()
+rows=[[particle.id, particle.name, particle.energy, pos[0], pos[1], pos[2], particle.direction.copy(), "PRIMARY"]]
 
 i=0
+i_max=500*2
 
-while len(particle_stack)>0 and i<21:
+while len(particle_stack)>0:
     i+=1
+    print(i)
     particle = particle_stack[0]
     print(particle.name, particle.energy)
+
     particle_stack = particle_stack[1:]
     # print(particle)
     particle, dx, interaction_bool=tp.move(particle)
@@ -29,7 +33,8 @@ while len(particle_stack)>0 and i<21:
     if (particle.energy<const.AE and particle.charge!=0) or (particle.energy<const.AP and particle.charge==0):
         pass
     else:
-        rows.append([particle.id, particle.name, particle.energy, particle.position.copy(), particle.direction.copy(), "MOVE"])
+        pos=particle.position.copy()
+        rows.append([particle.id, particle.name, particle.energy, pos[0], pos[1], pos[2], particle.direction.copy(), "MOVE"])
 
         if interaction_bool:
             if particle.charge==0:
@@ -37,30 +42,27 @@ while len(particle_stack)>0 and i<21:
                 print("--- PAIR PRODUCTION")
                 if p1.energy>const.AE:
                     particle_stack.append(p1)
-                    rows.append([p1.id, p1.name, p1.energy, p1.position.copy(), p1.direction.copy(), "PAIR PRODUCTION"])
+                    pos=p1.position.copy()
+                    rows.append([p1.id, p1.name, p1.energy, pos[0], pos[1], pos[2], p1.direction.copy(), "PAIR PRODUCTION"])
                 if p2.energy>const.AE:
                     particle_stack.append(p2)
-                    rows.append([p2.id, p2.name, p2.energy, p2.position.copy(), p2.direction.copy(), "PAIR PRODUCTION"])
+                    pos=p2.position.copy()
+                    rows.append([p2.id, p2.name, p2.energy, pos[0], pos[1], pos[2], p2.direction.copy(), "PAIR PRODUCTION"])
             else:
                 p1, p2 = interact.bremsstrahlung(particle)
                 print("--- BREMSSTRAHLUNG")
                 if p1.energy>const.AE:
                     particle_stack.append(p1)
-                    rows.append([p1.id, p1.name, p1.energy, p1.position.copy(), p1.direction.copy(), "BREMSSTRAHLUNG"])
+                    pos=p1.position.copy()
+                    rows.append([p1.id, p1.name, p1.energy, pos[0], pos[1], pos[2], p1.direction.copy(), "BREMSSTRAHLUNG"])
                 if p2.energy>const.AP:
                     particle_stack.append(p2)
-                    rows.append([p2.id, p2.name, p2.energy, p2.position.copy(), p2.direction.copy(), "BREMSSTRAHLUNG"])
+                    pos=p2.position.copy()
+                    rows.append([p2.id, p2.name, p2.energy, pos[0], pos[1], pos[2], p2.direction.copy(), "BREMSSTRAHLUNG"])
 
         else:
             print("NO INTERACTION")
             particle_stack.append(particle)
-
-
-        if i==21:
-            df=pd.DataFrame(data=rows, columns=["id", "particle", "energy", "position", "direction", "event"])
-            print(rows)
-            print(df)
-            df.to_excel("./OUTPUT/data.xlsx")
 
     particle_stack=sorted(particle_stack, key=lambda x: x.energy)
 
@@ -70,3 +72,15 @@ while len(particle_stack)>0 and i<21:
     pos_count=len([n for n in particle_stack if n.name == "positron"])
     phot_count=len([n for n in particle_stack if n.name == "photon"])
     print("ELECTRONS: {}, POSITRONS: {}, PHOTONS: {}".format(el_count, pos_count, phot_count))
+    print("ENERGY LEFT: {}".format(np.array(list(map(lambda x: x.energy, particle_stack))).sum()))
+
+    if i==i_max:
+        print("I_MAX REACHED")
+
+
+df=pd.DataFrame(data=rows, columns=["id", "particle", "energy", "position_x", "position_y", "position_z", "direction", "event"])
+print(rows)
+print(df)
+df.to_excel("./OUTPUT/data.xlsx")
+
+import Plotting.plotting

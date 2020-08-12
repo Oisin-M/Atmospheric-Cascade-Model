@@ -89,5 +89,5 @@ def move(particle):
             interaction_bool = False
 
     # print("TOTAL PATH LENGTH IS: ", dx)
-    
+
     return particle, dx, interaction_bool

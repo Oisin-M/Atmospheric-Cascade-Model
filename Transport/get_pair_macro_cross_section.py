@@ -16,6 +16,13 @@ def delta(Z, Delta):
 
     return 272*Z**(-1/3)*Delta
 
+def delta_max(Z, k_checked):
+
+    if k_checked>50:
+        return np.exp((21.12-4/3*np.log(Z)-4*const.f_c(Z))/4.184)-0.952
+    else:
+        return np.exp((21.12-4/3*np.log(Z))/4.184)-0.952
+
 def phi_1(delta):
 
     if delta<=1:
@@ -79,6 +86,12 @@ def domega_dEpluschecked(Z, k_checked, E_plus_checked):
     E_neg_checked = E_neg(k_checked, E_plus_checked)
     Delta_ = Delta(k_checked, E_plus_checked)
     delta_ = delta(Z, Delta_)
+
+    # think zeroing is just for bremsstrahlung
+    # if delta_>delta_max(Z, k_checked):
+    #     print("ZEROED")
+    #     return 0
+
     if k_checked>50:
         first_term = (E_plus_checked**2 + E_neg_checked**2)*(phi_1(delta_)-4/3*np.log(Z)-4*f_c(Z))
         second_term = 2/3*E_plus_checked*E_neg_checked*(phi_2(delta_)-4/3*np.log(Z)-4*f_c(Z))

@@ -29,17 +29,31 @@ def phi_2(delta):
 
 def A(delta_prime, k_checked):
 
+    phi_1_=phi_1(delta_prime)
+    phi_2_=phi_2(delta_prime)
+    if phi_1_<0:
+        print("PHI_1 PROBLEM")
+    if phi_2_<0:
+        print("PHI_2 PROBLEM")
+
     if k_checked>50:
-        return (3*phi_1(delta_prime)-phi_2(delta_prime)+8*const.Z_V)/(2/3+8*(np.log(184.15)+const.Z_V))
+        return (3*phi_1_-phi_2_+8*const.Z_V)/(2/3+8*(np.log(184.15)+const.Z_V))
     else:
-        return (3*phi_1(delta_prime)-phi_2(delta_prime)+8*const.Z_G)/(2/3+8*(np.log(184.15)+const.Z_G))
+        return (3*phi_1_-phi_2_+8*const.Z_G)/(2/3+8*(np.log(184.15)+const.Z_G))
 
 def C(delta_prime, k_checked):
 
+    phi_1_=phi_1(delta_prime)
+    phi_2_=phi_2(delta_prime)
+    if phi_1_<0:
+        print("PHI_1 PROBLEM")
+    if phi_2_<0:
+        print("PHI_2 PROBLEM")
+
     if k_checked>50:
-        return (3*phi_1(delta_prime)+phi_2(delta_prime)+16*const.Z_V)/(-2/3 + 16*np.log(184.15)+const.Z_V)
+        return (3*phi_1_-phi_2_+16*const.Z_V)/(-2/3 + 16*np.log(184.15)+const.Z_V)
     else:
-        return (3*phi_1(delta_prime)+phi_2(delta_prime)+16*const.Z_G)/(-2/3 + 16*np.log(184.15)+const.Z_G)
+        return (3*phi_1_-phi_2_+16*const.Z_G)/(-2/3 + 16*np.log(184.15)+const.Z_G)
 
 def alpha_1(k_checked):
 
@@ -79,14 +93,14 @@ def g_2(eps, k_checked):
 
 def sample_f_1():
 
-    return np.random.random()
+    return 0.5*(np.random.random())
 
 def sample_f_2():
 
     zeta_1=np.random.random()
     zeta_2=np.random.random()
     zeta_3=np.random.random()
-    return 1-np.max([zeta_1, zeta_2, zeta_3])
+    return 0.5*(1-np.max([zeta_1, zeta_2, zeta_3]))
 
 def sample_secondary_energy(k_checked):
 
@@ -97,6 +111,8 @@ def sample_secondary_energy(k_checked):
     if alphas[0] < zeta_1 * alphas.sum():
         #i=2
         eps_ = sample_f_2()
+        # print("EPS", eps_)
+        # print("g2: ", g_2(eps_, k_checked))
         if zeta_3 < g_2(eps_, k_checked):
             return eps_*k_checked
         else:
@@ -104,6 +120,8 @@ def sample_secondary_energy(k_checked):
     else:
         #i=1
         eps_ = sample_f_1()
+        # print("EPS", eps_)
+        # print("g1: ", g_1(eps_, k_checked))
         if zeta_3 < g_1(eps_, k_checked):
             return eps_*k_checked
         else:

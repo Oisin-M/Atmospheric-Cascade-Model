@@ -16,6 +16,13 @@ def delta(Z, Delta):
 
     return 272*Z**(-1/3)*Delta
 
+def delta_max(Z, k_checked):
+
+    if k_checked>50:
+        return np.exp((21.12-4/3*np.log(Z)-4*const.f_c(Z))/4.184)-0.952
+    else:
+        return np.exp((21.12-4/3*np.log(Z))/4.184)-0.952
+
 def phi_1(delta):
 
     if delta<=1:
@@ -88,6 +95,11 @@ def domega_dkchecked(Z, E_0_checked, k_checked):
     E_checked = E(E_0_checked, k_checked)
     Delta_ = Delta(E_0_checked, k_checked)
     delta_ = delta(Z, Delta_)
+
+    if delta_>delta_max(Z, k_checked):
+        # print("ZEROED")
+        return 0
+
     if E_0_checked>50:
         first_term = (1+(E_checked/E_0_checked)**2)*(phi_1(delta_)-4/3*np.log(Z)-4*f_c(Z))
         second_term = 2/3*E_checked/E_0_checked*(phi_2(delta_)-4/3*np.log(Z)-4*f_c(Z))
