@@ -18,7 +18,10 @@ pos=particle.position.copy()
 rows=[[particle.id, particle.name, particle.energy, pos[0], pos[1], pos[2], particle.direction.copy(), "PRIMARY"]]
 
 i=0
-i_max=500*2
+i_max=500
+
+import time
+start_time = time.time()
 
 while len(particle_stack)>0:
     i+=1
@@ -79,8 +82,13 @@ while len(particle_stack)>0:
 
 
 df=pd.DataFrame(data=rows, columns=["id", "particle", "energy", "position_x", "position_y", "position_z", "direction", "event"])
-print(rows)
-print(df)
+# print(rows)
+# print(df)
 df.to_excel("./OUTPUT/data.xlsx")
+
+energy_left = np.array(list(map(lambda x: x.energy, particle_stack))).sum()
+time_elapsed = time.time()-start_time
+energy_used_percentage = (10**9-energy_left)/10**9
+print("ESTIMATE: {} days".format(time_elapsed/energy_used_percentage * 1/(60*60*24)))
 
 import Plotting.plotting
