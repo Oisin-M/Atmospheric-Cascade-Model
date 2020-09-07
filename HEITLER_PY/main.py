@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 lambda_r=37.15
 d=lambda_r*np.log(2)
 
-E_0=30*10**3
-crit=85
+E_0=30*10**3 #500*10**3
+crit=22.4 #85
 
 X_crit = lambda_r*np.log(E_0/crit)
 
-cols=["id","name", "energy", "d"]
+cols=["id","name", "energy", "d"] #want this to become ["id","name", "energy", "position", "direction"]
 primary=[1, "photon", E_0, 0]
 stack=[primary]
 
@@ -35,17 +35,17 @@ while len(stack)>0:
             logs.append([last_id+2, "positron", particle[2]/2, particle[3]+d])
             last_id+=2
     else:
-        if particle[2]/4<crit:
+        if particle[2]/2<crit:
             logs.append([particle[0], particle[1], particle[2]/2, particle[3]+d])
             logs.append([particle[0], "photon", particle[2]/2, particle[3]+d])
         else:
             stack.append([particle[0], particle[1], particle[2]/2, particle[3]+d])
-            stack.append([particle[0], "photon", particle[2]/2, particle[3]+d])
+            stack.append([last_id+1, "photon", particle[2]/2, particle[3]+d])
 
             logs.append([particle[0], particle[1], particle[2]/2, particle[3]+d])
-            logs.append([particle[0], "photon", particle[2]/2, particle[3]+d])
-
-print(X_crit)
+            logs.append([last_id+1, "photon", particle[2]/2, particle[3]+d])
+            last_id+=1
+print(last_id)
 
 df=pd.DataFrame(data=logs, columns=cols)
 
