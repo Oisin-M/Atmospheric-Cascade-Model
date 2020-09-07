@@ -8,4 +8,8 @@ def move(particle):
 
     d=sample_d()
 
-    return d #implement: return new position
+    x=particle[3]+d*np.sin(particle[6])*np.cos(particle[7])
+    y=particle[4]+d*np.sin(particle[6])*np.sin(particle[7])
+    z=particle[5]+d*np.cos(particle[7])
+
+    return x, y, z

@@ -8,8 +8,8 @@ import Interactions.pair_production as pair
 import Transport.charged as charged
 import Transport.photon as photon
 
-cols=["id","name", "energy", "d"] #want this to become ["id","name", "energy", "position", "direction"]
-primary=[1, "photon", E_0, 0]
+cols=["id","name", "energy", "x", "y", "z", "theta", "phi"] #want this to become ["id","name", "energy", "position", "direction"]
+primary=[1, "photon", E_0, 0, 0, 0, 0, 0]
 stack=[primary]
 
 logs=[primary]
@@ -26,16 +26,17 @@ while len(stack)>0:
     print("d_init: ", d_init)
 
     if particle[1]=="photon":
-        d=photon.move(particle)
-        last_id=pair.interact(logs, stack, particle, last_id, d)
+        x, y, z=photon.move(particle)
+        logs, stack, last_id=pair.interact(logs, stack, particle, last_id, x, y, z)
     else:
-        last_id=brem.interact(logs, stack, particle, last_id, d)
+        x, y, z=charged.move(particle)
+        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, x, y, z)
 
 print(last_id)
 
 df=pd.DataFrame(data=logs, columns=cols)
 
-#df['d']=
+df["d"] = np.linalg.norm(df[["x", "y", "z"]], axis=1)
 
 df.to_excel("./output.xlsx", index=False)
 
