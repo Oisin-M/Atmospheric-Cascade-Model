@@ -8,4 +8,4 @@ def move(particle):
 
     d=sample_d()
 
-    return d
+    return d #implement: return new position
