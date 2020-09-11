@@ -1,10 +1,22 @@
+import numpy as np
 from constants import *
 
 def sample_d():
     zeta=np.random.random()
     return lambda_r*np.log(2)*-1*np.log(zeta)
 
+def max_step_size(energy):
+
+    gamma=energy/m
+    beta=np.sqrt(1-gamma**(-2))
+
+    t_s=2*X_0*energy*beta**2/E_checked_s
+
+    return eps_P_max*t_s
+
 def move(particle):
+
+    print("max: ",max_step_size(particle[2]))
 
     d=sample_d()
 

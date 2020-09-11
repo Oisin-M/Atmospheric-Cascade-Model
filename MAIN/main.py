@@ -37,6 +37,7 @@ print(last_id)
 df=pd.DataFrame(data=logs, columns=cols)
 
 df["d"] = np.linalg.norm(df[["x", "y", "z"]], axis=1)
+df['d']=df['z']
 
 df.to_excel("./output.xlsx", index=False)
 
