@@ -4,7 +4,10 @@ def sample_d():
     zeta=np.random.random()
     return lambda_r*np.log(2)*-1*np.log(zeta)
 
-def interact(logs, stack, particle, last_id, x, y, z):
+def interact(logs, stack, particle, last_id, x, y, z, interact):
+
+    if not interact:
+        return logs, stack, last_id
 
     theta=particle[6]+m/particle[2]
     phi=np.random.random()*2*np.pi

@@ -1,5 +1,6 @@
 import numpy as np
 from constants import *
+from .scattering.energy_loss import find_energy_loss_rate
 
 def sample_d():
     zeta=np.random.random()
@@ -18,10 +19,16 @@ def move(particle):
 
     print("max: ",max_step_size(particle[2]))
 
+    print("energy loss rate: ", find_energy_loss_rate(particle))
+
     d=sample_d()
+
+    print("energy loss: ", find_energy_loss_rate(particle)*d)
 
     x=particle[3]+d*np.sin(particle[6])*np.cos(particle[7])
     y=particle[4]+d*np.sin(particle[6])*np.sin(particle[7])
     z=particle[5]+d*np.cos(particle[7])
 
-    return x, y, z
+    interact=True
+
+    return x, y, z, interact

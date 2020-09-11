@@ -29,8 +29,8 @@ while len(stack)>0:
         x, y, z=photon.move(particle)
         logs, stack, last_id=pair.interact(logs, stack, particle, last_id, x, y, z)
     else:
-        x, y, z=charged.move(particle)
-        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, x, y, z)
+        x, y, z, interact=charged.move(particle)
+        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, x, y, z, interact)
 
 print(last_id)
 
