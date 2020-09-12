@@ -26,18 +26,18 @@ while len(stack)>0:
     print("d_init: ", d_init)
 
     if particle[1]=="photon":
-        x, y, z=photon.move(particle)
-        logs, stack, last_id=pair.interact(logs, stack, particle, last_id, x, y, z)
+        particle=photon.move(particle)
+        logs, stack, last_id=pair.interact(logs, stack, particle, last_id)
     else:
-        x, y, z, interact=charged.move(particle)
-        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, x, y, z, interact)
+        particle, interact=charged.move(particle)
+        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, interact)
 
 print(last_id)
 
 df=pd.DataFrame(data=logs, columns=cols)
 
 df["d"] = np.linalg.norm(df[["x", "y", "z"]], axis=1)
-df['d']=df['z']
+# df['d']=df['z']
 
 df.to_excel("./output.xlsx", index=False)
 

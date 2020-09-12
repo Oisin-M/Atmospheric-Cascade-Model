@@ -13,4 +13,8 @@ def move(particle):
     y=particle[4]+d*np.sin(particle[6])*np.sin(particle[7])
     z=particle[5]+d*np.cos(particle[7])
 
-    return x, y, z
+    particle[3]=x
+    particle[4]=y
+    particle[5]=z
+
+    return particle
