@@ -1,6 +1,7 @@
 import numpy as np
 from constants import *
 from .scattering.energy_loss import find_energy_loss_rate
+from .interact_bool.interact_bool import get_total_macro_cross_section
 
 def sample_d():
     zeta=np.random.random()
@@ -25,6 +26,8 @@ def move(particle):
 
     q,r=divmod(d, step)
     print(q,r)
+
+    sigma_first=get_total_macro_cross_section(particle)
 
     for i in range(int(q)):
         x=particle[3]+d*np.sin(particle[6])*np.cos(particle[7])
@@ -51,6 +54,9 @@ def move(particle):
     particle[4]=y
     particle[5]=z
 
-    interact=True
+    sigma_final=get_total_macro_cross_section(particle)
+
+    interact=np.random.random()<=sigma_final/sigma_first
+    print("interact: ", interact)
 
     return particle, interact

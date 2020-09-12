@@ -16,10 +16,19 @@ def delta(Z, Delta):
 
     return 272*Z**(-1/3)*Delta
 
+def a(Z):
+
+    return const.alpha*Z
+
+def f_c(Z):
+
+    a_ = a(Z)
+    return a_**2*(1/(1+a_**2)+0.20206-0.0369*a_**2+0.0083*a_**4-0.002*a_**6)
+
 def delta_max(Z, k_checked):
 
     if k_checked>50:
-        return np.exp((21.12-4/3*np.log(Z)-4*const.f_c(Z))/4.184)-0.952
+        return np.exp((21.12-4/3*np.log(Z)-4*f_c(Z))/4.184)-0.952
     else:
         return np.exp((21.12-4/3*np.log(Z))/4.184)-0.952
 
@@ -37,14 +46,6 @@ def phi_2(delta):
     else:
         return 21.12-4.184*np.log(delta+0.952)
 
-def a(Z):
-
-    return const.alpha*Z
-
-def f_c(Z):
-
-    a_ = a(Z)
-    return a_**2*(1/(1+a_**2)+0.20206-0.0369*a_**2+0.0083*a_**4-0.002*a_**6)
 
 def L_prime(Z):
 
@@ -108,6 +109,6 @@ def dSigma_dkchecked(E_0_checked, k_checked):
 
 def get_total_macro_cross_section(particle):
 
-    E_0_checked = particle.energy
+    E_0_checked = particle[2]
 
     return integrate.quad(lambda k: dSigma_dkchecked(E_0_checked, k), const.AP, E_0_checked - const.m)[0]
