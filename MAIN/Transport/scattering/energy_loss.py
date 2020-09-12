@@ -5,10 +5,9 @@ import scipy.integrate as integrate
 
 def dEdx_BREM(particle):
 
-    # E_0_checked = particle.energy
-    #
-    # return const.X_0*integrate.quad(lambda k: k*dSigma_dkchecked(E_0_checked, k), 0, const.AP)[0]
-    return 0
+    E_0_checked = particle[2]
+
+    return const.X_0*integrate.quad(lambda k: k*dSigma_dkchecked(E_0_checked, k), 0, const.AP)[0]
 
 def dEdx_ATOMIC_ELECTRONS(particle):
 
