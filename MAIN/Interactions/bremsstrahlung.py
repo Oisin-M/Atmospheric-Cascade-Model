@@ -12,7 +12,7 @@ def interact(logs, stack, particle, last_id, interact):
         stack.append(particle)
         return logs, stack, last_id
 
-    theta=particle[6]+m/particle[2]
+    theta=particle[6]+m/particle[2]*np.random.randint(2)
     phi=np.random.random()*2*np.pi
 
     x=particle[3]

@@ -8,8 +8,8 @@ def cherenkov_emission(particle, distance, n, lambda_0, lambda_1):
     beta = np.sqrt(1 - gamma**(-2))
 
     if beta*n>1:
-        theta_c=np.arccos(1/(n*beta))
+        theta_c=np.arccos(1/(n*beta))*np.random.randint(2)
 
-        return 2*np.pi*alpha*distance*integrate.quad(lambda k: k**(-2)*(np.sin(theta_c))**2, lambda_0, lambda_1)[0], theta_c
+        return 2*np.pi*alpha*distance*integrate.quad(lambda k: k**(-2)*(np.sin(theta_c))**2, lambda_0, lambda_1)[0], theta_c #SLOWING CODE
     else:
         return False, False
