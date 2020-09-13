@@ -7,7 +7,7 @@ def dEdx_BREM(particle):
 
     E_0_checked = particle[2]
 
-    return const.X_0*integrate.quad(lambda k: k*dSigma_dkchecked(E_0_checked, k), 0, const.AP)[0]
+    return const.X_0*integrate.quad(lambda k: k*dSigma_dkchecked(E_0_checked, k), 0, const.AP)[0] #SLOWING CODE
 
 def dEdx_ATOMIC_ELECTRONS(particle):
 

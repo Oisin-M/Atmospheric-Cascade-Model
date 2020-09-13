@@ -27,7 +27,7 @@ def move(particle):
     q,r=divmod(d, step)
     print(q,r)
 
-    sigma_first=get_total_macro_cross_section(particle)
+    sigma_first=get_total_macro_cross_section(particle) #SLOWING CODE
 
     for i in range(int(q)):
         x=particle[3]+d*np.sin(particle[6])*np.cos(particle[7])
@@ -54,7 +54,7 @@ def move(particle):
     particle[4]=y
     particle[5]=z
 
-    sigma_final=get_total_macro_cross_section(particle)
+    sigma_final=get_total_macro_cross_section(particle) #SLOWING CODE
 
     interact=np.random.random()<=sigma_final/sigma_first
     print("interact: ", interact)
