@@ -8,8 +8,8 @@ import Interactions.pair_production as pair
 import Transport.charged as charged
 import Transport.photon as photon
 
-cols=["id","name", "energy", "x", "y", "z", "theta", "phi"] #want this to become ["id","name", "energy", "position", "direction"]
-primary=[1, "photon", E_0, 0, 0, 0, 0, 0]
+cols=["id","name", "energy", "x", "y", "z", "theta", "phi", "count"] #want this to become ["id","name", "energy", "position", "direction"]
+primary=[1, "photon", E_0, 0, 0, 0, 0, 0, np.nan]
 stack=[primary]
 
 logs=[primary]
@@ -29,8 +29,8 @@ while len(stack)>0:
         particle=photon.move(particle)
         logs, stack, last_id=pair.interact(logs, stack, particle, last_id)
     else:
-        particle, interact=charged.move(particle)
-        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, interact)
+        particle, interact, cherenkov=charged.move(particle)
+        logs, stack, last_id=brem.interact(logs, stack, particle, last_id, interact, cherenkov)
 
 print(last_id)
 

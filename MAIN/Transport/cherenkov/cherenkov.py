@@ -1,6 +1,5 @@
 import numpy as np
-from constant import alpha, c
-import scipy.integrate as integrate
+from constants import alpha, c, m
 
 def cherenkov_emission(particle, distance, n, lambda_0, lambda_1):
 
@@ -10,6 +9,9 @@ def cherenkov_emission(particle, distance, n, lambda_0, lambda_1):
     if beta*n>1:
         theta_c=np.arccos(1/(n*beta))*np.random.randint(2)
 
-        return 2*np.pi*alpha*distance*integrate.quad(lambda k: k**(-2)*(np.sin(theta_c))**2, lambda_0, lambda_1)[0], theta_c #SLOWING CODE
+        # integrate.quad(lambda k: k**(-2)*(np.sin(theta_c))**2, lambda_0, lambda_1)[0]
+        no=2*np.pi*alpha*distance*(np.sin(theta_c))**2*(-1/lambda_1+1/lambda_0)
+        print("Cherenkov: ", no, theta_c)
+        return no, theta_c
     else:
         return False, False

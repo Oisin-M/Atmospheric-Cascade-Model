@@ -20,10 +20,10 @@ def interact(logs, stack, particle, last_id):
         # logs.append([last_id+2, "positron", particle[2]/2, z, y, z, theta, 2*np.pi-phi])
         pass
     else:
-        stack.append([last_id+1, "electron", particle[2]/2, z, y, z, theta, phi])
-        stack.append([last_id+2, "positron", particle[2]/2, z, y, z, theta, 2*np.pi-phi])
+        stack.append([last_id+1, "electron", particle[2]/2, z, y, z, theta, phi, np.nan])
+        stack.append([last_id+2, "positron", particle[2]/2, z, y, z, theta, 2*np.pi-phi, np.nan])
 
-        logs.append([last_id+1, "electron", particle[2]/2, z, y, z, theta, phi])
-        logs.append([last_id+2, "positron", particle[2]/2, z, y, z, theta, 2*np.pi-phi])
+        logs.append([last_id+1, "electron", particle[2]/2, z, y, z, theta, phi, np.nan])
+        logs.append([last_id+2, "positron", particle[2]/2, z, y, z, theta, 2*np.pi-phi, np.nan])
 
     return logs, stack, last_id+2

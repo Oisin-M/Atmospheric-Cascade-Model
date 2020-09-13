@@ -3,9 +3,17 @@ import numpy as np
 #from https://en.wikipedia.org/wiki/Density_of_air for now
 rho = 1.225 * 10**3/(100**3) #g/cm^3
 
+lambda_0=529*10**-9
+
+lambda_1=600*10**-9
+
 def rho_func(h):
 
     return 1 #just for now
+
+def n_func(h1,h2):
+
+    return 1 + 0.000283*(rho_func(h2)/rho_func(h1))
 
 eps_MS = 0 #fudge factor, ignoring since value not given
 
