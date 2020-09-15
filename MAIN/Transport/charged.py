@@ -1,6 +1,7 @@
 import numpy as np
 from constants import *
 from .scattering.energy_loss import find_energy_loss_rate
+from .scattering.deviation import find_theta, find_phi
 from .interact_bool.interact_bool import get_total_macro_cross_section
 from .cherenkov.cherenkov import cherenkov_emission
 
@@ -34,33 +35,43 @@ def move(particle):
     cherenkov=[]
 
     for i in range(int(q)):
-        x=particle[3]+d*np.sin(particle[6])*np.cos(particle[7])
-        y=particle[4]+d*np.sin(particle[6])*np.sin(particle[7])
-        z=particle[5]+d*np.cos(particle[7])
+        x=particle[3]+step*np.sin(particle[6])*np.cos(particle[7])
+        y=particle[4]+step*np.sin(particle[6])*np.sin(particle[7])
+        z=particle[5]+step*np.cos(particle[7])
         print("energy loss rate: ", find_energy_loss_rate(particle))
         print("energy loss: ", find_energy_loss_rate(particle)*step)
         E=particle[2]+find_energy_loss_rate(particle)*step
+
+        theta=find_theta(particle, step)
+        phi=find_phi(particle)
 
         particle[2]=E
         particle[3]=x
         particle[4]=y
         particle[5]=z
+        particle[6]=theta
+        particle[7]=phi
 
         no, theta_c=cherenkov_emission(particle, step, n, lambda_0, lambda_1)
         if n!=False:
             cherenkov.append([np.nan, "Cherenkov Photons", np.nan, particle[3], particle[4], particle[5], particle[6]+theta_c, np.random.random()*np.pi*2, int(no)])
 
-    x=particle[3]+d*np.sin(particle[6])*np.cos(particle[7])
-    y=particle[4]+d*np.sin(particle[6])*np.sin(particle[7])
-    z=particle[5]+d*np.cos(particle[7])
+    x=particle[3]+r*np.sin(particle[6])*np.cos(particle[7])
+    y=particle[4]+r*np.sin(particle[6])*np.sin(particle[7])
+    z=particle[5]+r*np.cos(particle[7])
     print("energy loss rate: ", find_energy_loss_rate(particle))
     print("energy loss: ", find_energy_loss_rate(particle)*r)
     E=particle[2]+find_energy_loss_rate(particle)*r
+
+    theta=find_theta(particle, r)
+    phi=find_phi(particle)
 
     particle[2]=E
     particle[3]=x
     particle[4]=y
     particle[5]=z
+    particle[6]=theta
+    particle[7]=phi
 
     no, theta_c=cherenkov_emission(particle, step, n, lambda_0, lambda_1)
     if n!=False:
