@@ -1,4 +1,5 @@
 from constants import *
+from .secondary_energy.brem import sample_secondary_energy
 
 def sample_d():
     zeta=np.random.random()
@@ -21,15 +22,18 @@ def interact(logs, stack, particle, last_id, interact, cherenkov):
     y=particle[4]
     z=particle[5]
 
+    k_checked = brem_pdf.sample_secondary_energy(particle[2])
+    E_checked = particle[2] - k_checked
+
     if particle[2]/2<crit:
         # logs.append([particle[0], particle[1], particle[2]/2, x, y, z, particle[6], particle[7]])
         # logs.append([last_id+1, "photon", particle[2]/2, x, y, z, theta, phi])
         pass
     else:
-        stack.append([particle[0], particle[1], particle[2]/2, z, y, z, particle[6], particle[7], np.nan])
-        stack.append([last_id+1, "photon", particle[2]/2, z, y, z, theta, phi, np.nan])
+        stack.append([particle[0], particle[1], E_checked, z, y, z, particle[6], particle[7], np.nan])
+        stack.append([last_id+1, "photon", k_checked, z, y, z, theta, phi, np.nan])
 
-        logs.append([particle[0], particle[1], particle[2]/2, z, y, z, particle[6], particle[7], np.nan])
-        logs.append([last_id+1, "photon", particle[2]/2, z, y, z, theta, phi, np.nan])
+        logs.append([particle[0], particle[1], E_checked, z, y, z, particle[6], particle[7], np.nan])
+        logs.append([last_id+1, "photon", k_checked, z, y, z, theta, phi, np.nan])
 
     return logs, stack, last_id+1
